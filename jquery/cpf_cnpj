@@ -1,0 +1,45 @@
+(function ($) {
+    $.fn.cnpj = function () {
+        return this.off().on(
+            "input keydown keyup mousedown mouseup select contextmenu drop",
+            function (evt) {
+                if (/^\d*$/.test(evt.target.value)) {
+                    evt.target.oldValue = evt.target.value;
+                    evt.target.oldSelectionStart = evt.target.selectionStart;
+                    evt.target.oldSelectionEnd = evt.target.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    evt.target.value = evt.target.oldValue;
+                    evt.target.setSelectionRange(evt.target.oldSelectionStart, evt.target.oldSelectionEnd);
+                }
+            }
+        ).on(
+            "blur",
+            function (evt) {
+                let v = evt.target.value.replace(/\D+/, "");
+                evt.target.value = ("00000000000000".substring(v.length) + v).replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5").substr(0,18);
+            }
+        );
+    };
+    $.fn.cpf = function () {
+        return this.off().on(
+            "input keydown keyup mousedown mouseup select contextmenu drop",
+            function (evt) {
+                if (/^\d*$/.test(evt.target.value)) {
+                    evt.target.oldValue = evt.target.value;
+                    evt.target.oldSelectionStart = evt.target.selectionStart;
+                    evt.target.oldSelectionEnd = evt.target.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    evt.target.value = evt.target.oldValue;
+                    evt.target.setSelectionRange(evt.target.oldSelectionStart, evt.target.oldSelectionEnd);
+                }
+            }
+        ).on(
+            "blur",
+            function (evt) {
+                let v = evt.target.value.replace(/\D+/, "");
+                evt.target.value = ("00000000000".substring(v.length) + v).replace(/(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4").substr(0, 14);
+            }
+        );
+    };
+
+}(jQuery));
